@@ -15,9 +15,6 @@ gem 'pg',             '0.17.1'
 gem 'newrelic_rpm'
 gem 'httparty'
 
-gem 'polymer-rails'
-gem 'polymer-core-rails'
-gem 'polymer-paper-rails'
 gem 'google-webfonts-rails', '~> 0.0.4'
 
 gem 'bootstrap-sass',       '3.2.0.0'
