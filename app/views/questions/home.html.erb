@@ -1,0 +1,40 @@
+<div ng-if="main.show.list">
+	<div class="tabs">
+		<md-tabs md-stretch-tabs="always" layout-align="center center" class="statusBar md-whiteframe-z2" md-dynamic-height md-border-bottom>
+			<md-tab flex label="unanswered" md-on-select="main.setStatus('unanswered')" ></md-tab>
+			<md-tab flex label="answered" md-on-select="main.setStatus('answered')"></md-tab>
+			<md-tab flex label="both" md-on-select="main.setStatus('both')"></md-tab>
+		</md-tabs>
+	</div>
+
+	<div layout="column" class="questionsContainer">
+		<div ng-show="main.questions.length == 0" layout="row">
+			<div flex class="md-whiteframe-z2 cap warn red">
+				There are no <span class="bold">{{ main.currentStatus == 'both' ? '' : main.currentStatus }}</span> questions in <span class="bold">{{ main.currentCategory }}</span> 
+			</div>	
+		</div>
+		<div ng-hide="main.questions.length == 0" layout="row">
+			<div class="hor-end">Answered?</div>	
+		</div>
+		<div class="question md-whiteframe-z4" layout horizontal ng-repeat="q in main.questions">
+			<button ng-click="main.go(q)" block class="answerBtn md-button answerBtnContainer" md-ink-ripple flex="13">
+				<i class="fa fa-comments-o"></i>
+				<span> {{ q.answered ? "See Answer" : "Answer" }} </span>
+			</button>
+			<div flex="75" class="questionText">
+				<span>{{ q.body }}</span>
+				<div style="margin-top:20px;">
+					<div class="qFooter">
+						Asked by {{ q.user.name }} {{ q.created_at }}.
+					</div>
+				</div>
+			</div>
+			<div center flex="12" class="statusContainer">
+				<md-button aria-label="blah" class="md-fab" ng-class="q.answered ? 'green' : 'red' "> 
+					<i class="fa" ng-class="q.answered ? 'fa-check' : 'fa-close' "></i> 
+				</md-button>
+			</div>
+		</div>
+	</div>
+</div>
+<question-discussion show-on="main.show.question" question="main.current" user="main.currentUser"></question-discussion>	

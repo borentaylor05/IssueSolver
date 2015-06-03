@@ -1,0 +1,42 @@
+<md-dialog class="wide" aria-label="New User">
+    <form>
+    <md-dialog-content class="sticky-container">
+        <md-subheader class="md-sticky-no-effect">New User</md-subheader>
+        <div>
+            <md-input-container flex="40" class="md-default-theme">
+              <label for="title">Jive Username / Employee ID</label>
+              <input ng-model="nu.user.employee_id" class="md-input" id="title" tabindex="0" aria-invalid="false">
+            </md-input-container>
+            <div layout="row">
+              <md-input-container flex="40" class="md-default-theme">
+                <label for="title">First Name</label>
+                <input ng-model="nu.user.first_name" class="md-input" id="fname" tabindex="0" aria-invalid="false">
+              </md-input-container>
+              <md-input-container flex="40" class="md-default-theme">
+                <label for="title">Last Name</label>
+                <input ng-model="nu.user.last_name" class="md-input" id="lname" tabindex="0" aria-invalid="false">
+              </md-input-container>
+            </div>
+            <md-input-container flex="40" class="md-default-theme">
+              <label for="title">Email Address</label>
+              <input ng-model="nu.user.email" class="md-input" id="email" tabindex="0" aria-invalid="false">
+            </md-input-container>
+            <md-checkbox class="md-primary" ng-model="nu.user.l2" aria-label="l2">
+              Is this an L2 Agent? <span class="bold">{{ nu.user.l2 ? "Yes" : "No" }} </span>
+            </md-checkbox>
+            <md-checkbox class="md-primary" ng-model="nu.user.mentor" aria-label="l2">
+              Is this a Coach Mentor? <span class="bold">{{ nu.user.mentor ? "Yes" : "No" }} </span>
+            </md-checkbox>
+        </div>
+    </md-dialog-content>
+  <div class="md-actions" layout="row">
+    <span flex></span>
+    <md-button ng-click="cancel()" class="md-primary">
+     Cancel
+    </md-button>
+    <md-button ng-click="nu.createUser(nu.user)" class="md-raised md-primary">
+      Create User
+    </md-button>
+  </div>
+  </form>
+</md-dialog>

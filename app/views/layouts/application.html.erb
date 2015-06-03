@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>IssueSolver</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <%= google_webfonts_init({
+    google: ['Raleway']
+  }) %>
+</head>
+<body ng-app="App">
+	<div layout="column" ng-controller="Main as main">
+		<md-toolbar class="md-green shadow-1" layout="row">
+	      <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn">
+	        <span class="visually-hidden"></span>
+	      </button>
+	      	<h1 flex="20" id="appTitle" >WW Coaches</h1>
+	      	<p flex="50" class="hud cap">Showing <span class="bold">{{ main.currentStatus == 'both' ? 'all' : main.currentStatus }}</span> questions in <span class="bold">{{ main.currentCategory }}</span></p>
+	      	<div layout="column" layout-align="center center" flex="10">
+			  <md-select placeholder="Account" ng-model='acct'>
+			    <md-option ng-click="main.newUser($event)" value="1">New User</md-option>
+			    <md-option value="2"><%= link_to "Log out", destroy_user_session_path, :method => :delete %></md-option>
+			  </md-select>
+			</div>
+	      	<button flex="20" class="md-button ask" md-ink-ripple ng-click="main.askQuestion($event)">Ask a Question</button>
+	    </md-toolbar>
+	    <div class="main" layout="row" flex>
+	        <md-sidenav 
+	        	layout="column" 
+	        	class="md-sidenav-left md-whiteframe-z2" 
+	        	md-component-id="left" 
+	        	md-is-locked-open="$mdMedia('gt-sm')">
+	          <div class="categories">
+	          	<div layout="row">
+	          		<div flex="65" class="cat">Categories </div>
+	          		<i 	flex="10" class="fa fa-border addCat right-flex"
+	          			ng-click="main.openCat()" 
+	          			ng-if="main.currentUser.admin" 
+	          			ng-class="{'fa-minus': main.show.addCat, 'fa-plus': !main.show.addCat }">
+	          		</i>
+	          	</div>	          	
+	          	<form ng-submit="main.createCategory(main.newCat)" ng-if="main.currentUser.admin && main.show.addCat">
+	          		<md-input-container flex="" class="md-default-theme light">
+		              	<label for="name">Category Name</label>
+		              	<input ng-model="main.newCat.name" class="md-input" id="title" tabindex="0" aria-invalid="false">
+		            </md-input-container>
+		            <md-input-container flex="" class="md-default-theme light">
+		              	<label for="icon">Icon Name</label>
+		              	<input ng-model="main.newCat.icon" class="md-input" id="title" tabindex="0" aria-invalid="false">
+		            </md-input-container>
+		            <div layout='row'>
+		            	<md-button class="md-raised md-primary right-flex" style="margin-left: auto;">
+							Create
+						</md-button>
+		            </div>
+	          	</form>
+
+	          	<div class="cat" ng-repeat="cat in main.categories">
+	          		
+	          		<button ng-class="main.isActive(cat.name)" ng-click="main.setCategory(cat.name)" md-ink-ripple class="md-button md-primary">
+	          			<span class="ng-scope">
+	          				<i ng-class="cat.icon ? cat.icon : 'fa-question-circle' " class="fa"></i>
+	          				{{cat.name}}
+	          			</span>
+	          			<div class="md-ripple-container"></div>
+	          		</button>
+	          	</div>
+	          </div>
+	        </md-sidenav>
+	        <div layout="column" flex id="content">
+	        	<md-content layout="column" flex class="md-padding">
+	            	<%= yield %>
+	            </md-content>
+	        </div>
+	    </div>	
+	</div>
+
+</body>
+</html>

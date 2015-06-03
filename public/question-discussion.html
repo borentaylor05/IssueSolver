@@ -1,0 +1,82 @@
+<div ng-controller="Question as q" ng-if="showOn" ng-init="q.getReplies(question)">
+	<div class="md-whiteframe-z2 questionMain questionText" flex>
+		<h2 class="slim"> {{ question.title }} </h2>		
+		<span class="fading-line"></span>
+		<div class="questionBody">
+			{{ question.body }}
+		</div>
+		<p class="tiny block slim qFooter"> asked by {{ user.name }} {{ question.created_at }} </p>
+	</div>
+	<div class="replyContainer" flex>
+		<h2 class="slim">Replies</h2>
+		<span class="fading-line"></span>
+		<div class="reply">
+			<div layout="row">
+				<div flex="10">
+					<md-button class="md-fab md-primary md-mini correctIcon" aria-label="Play">
+					  <md-tooltip>
+					    Mark as Correct
+					  </md-tooltip>
+					  <i class="fa fa-check"></i>
+					</md-button>
+				</div>
+				<div flex="90">
+					<h3 class="name slim"><i class="fa fa-certificate fa-border"></i> L2 Name <span class="ts tiny"> replied 2 days ago </span> </h3>
+					<div class="replyText">
+						This is an example answer from an L2 agent.
+					</div>
+				</div>
+			</div>
+			<span class="fading-line"></span>
+		</div>
+		<div class="reply">
+			<div layout="row">
+				<div flex="10">
+					<md-button class="md-fab md-primary md-mini correctIcon" aria-label="Play">
+					  <md-tooltip>
+					    Mark as Correct
+					  </md-tooltip>
+					  <i class="fa fa-check"></i>
+					</md-button>
+				</div>
+				<div flex="90">
+					<h3 class="name slim"><i class="fa fa-star fa-border"></i> Mentor Name <span class="ts tiny"> replied 2 days ago </span> </h3>
+					<div class="replyText">
+						This is an example answer from a coach mentor.
+					</div>
+				</div>
+			</div>
+			<span class="fading-line"></span>
+		</div>
+		<div class="reply" ng-repeat="r in q.replies">
+			<div layout="row">
+				<div flex="10">
+					<md-button class="md-fab md-primary md-mini correctIcon" aria-label="Play">
+					  <md-tooltip>
+					    Mark as Correct
+					  </md-tooltip>
+					  <i class="fa fa-check"></i>
+					</md-button>
+				</div>
+				<div flex="90">
+					<h3 class="name slim">Taylor Boren <span class="ts tiny"> {{r.created_at}} </span> </h3>
+					<div class="replyText">
+						{{ r.body }}
+					</div>
+				</div>
+			</div>
+			<span class="fading-line"></span>
+		</div>
+		<div class="doReply md-whiteframe-z3">
+			<form ng-submit="q.reply(question, q.replyBody)">
+				<md-input-container flex="" class="md-default-theme md-input-has-value">
+	                <label for="body">Type Your Answer</label>
+	                <textarea ng-model="q.replyBody" columns="1" md-maxlength="350" class="md-input ng-valid-md-maxlength" id="body" ng-trim="false" aria-multiline="false" tabindex="0" aria-invalid="false" ></textarea>
+	            </md-input-container>
+	            <div class="right-flex">
+	            	<md-button class="md-raised md-primary">Send Reply</md-button>
+	            </div>
+	        </form>
+		</div>
+	</div>
+</div>

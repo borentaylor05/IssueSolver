@@ -1,0 +1,19 @@
+{
+  "name": "IssueSolver",
+  "version": "0.0.0",
+  "authors": [
+    "Taylor Boren <taylorboren@teletech.com>"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/assets/components",
+    "test",
+    "tests"
+  ]
+}

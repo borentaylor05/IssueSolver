@@ -1,0 +1,362 @@
+/* BEGIN GLOBAL */
+
+@font-face {
+  font-family: 'Material Design Iconic Font';
+  src: url('Material-Design-Iconic-Font.eot?v=1.0.1');
+  src: url('Material-Design-Iconic-Font.eot?#iefix&v=1.0.1') format('embedded-opentype'), url('Material-Design-Iconic-Font.woff?v=1.0.1') format('woff'), url('Material-Design-Iconic-Font.ttf?v=1.0.1') format('truetype'), url('Material-Design-Iconic-Font.svg?v=1.0.1#Material-Design-Iconic-Font') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+#appTitle{
+	margin: 5px;
+	font-weight: 200;
+	font-size: 1.8em;
+}
+.hide{
+	display: none;
+}
+body {
+	font-family: 'Raleway'
+}
+md-option .md-text *{
+	color: white;
+	text-decoration: none;
+}
+md-option .md-text *:hover{
+	color: black;
+}
+md-toolbar.md-default-theme .md-button.ask {
+  color: rgb(139,195,74);
+  background-color: #333;
+}
+.fading-line{
+	display:block;
+    border:none;
+    color:white;
+    height:1px;
+    background:black;
+    background: -webkit-gradient(radial, 10% 50%, 0, 10% 50%, 650, from(#999), to(#fff));
+}
+.tiny{
+	font-size: .6em;
+	margin-top: 10px;
+	margin-left: 10px;
+}
+.addCat{
+	margin-left: 20px;
+	cursor:pointer;
+	border-radius: 100px !important;
+	padding-top: 4px !important;
+  	height: 25px;
+  	padding-left: 6px !important;
+  	margin-top: 4px;
+}
+.block{
+	display: block;
+}
+.slim{
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+.categories{
+	background-color: #333;
+	color: white;
+	min-height: 1000px;
+}
+.cat{
+	text-transform: capitalize;
+	padding: 5px;
+	margin-left: 30px;
+}
+.cat > .md-button{
+	width: 100%;
+	text-align: left;
+	font-size: 1.2em;
+	color: lime;
+}
+.cat > .md-button span{
+	color: white;
+}
+.cat i{
+	margin-right: 15px;
+}
+.main{
+	min-height: 1000px;
+}
+.green{
+	background-color:green !important;
+	color: white !important;
+}
+.red{
+	background-color:red !important;
+	color: white !important;
+}
+.cap{
+	text-transform: capitalize;
+}
+.hud{
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+.bold{
+	font-weight: bold;
+}
+.cat > button.active{
+	background-color: white;
+	color: black;
+}
+.cat > button.active span, .cat > button.active i{
+	color: black;
+}
+.md-fab > i{
+	padding-top: 16px;
+	font-size: 1.8em;
+}
+.md-fab.md-mini > i{
+	padding-top: 11px;
+	font-size: 1.3em;
+}
+.warn{
+	padding: 10px;
+}
+md-toolbar{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-left: 20px;
+}
+.right-flex{
+	display: -webkit-flex;
+   display: flex;
+   -webkit-flex-direction: row;
+   flex-direction: row;
+   -webkit-justify-content: flex-end;
+   justify-content: flex-end;
+}
+.md-button.primary{
+	background-color: white;
+	color: black;
+}
+/* dynamic label color */
+md-input-container label:not(.md-no-float), md-input-container .md-placeholder:not(.md-select-label){
+	color: #555;
+}
+md-input-container.light label:not(.md-no-float), md-input-container .md-placeholder:not(.md-select-label){
+	color: white;
+}
+md-input-container.light.md-default-theme .md-input{
+	color: white;
+}
+/* END GLOBAL */
+
+/* BEGIN TABS */
+
+md-tabs{
+	background-color: #333;
+}
+md-tabs.md-default-theme .md-tab {
+  color: white !important;
+  font-size: 1.1em !important;
+}
+md-tabs.md-default-theme .md-tab.md-active, md-tabs.md-default-theme .md-tab.md-focused{
+	color: rgb(139,195,74) !important;
+}
+.statusBar{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* END TABS */
+
+/* BEGIN QUESTIONS */
+
+.questionsContainer{
+	margin-top: 20px;
+}
+.question{
+	padding: 0px;
+	margin-bottom: 15px;
+}
+.answerBtnContainer i{
+	font-size: 1.8em;
+	display: block;
+}
+.answerBtnContainer span{
+	font-size: 1.2em;
+	display: block;
+}
+.answerBtn.md-button{
+	/*display: flex;*/
+  	align-items: center;
+  	justify-content: center;
+	text-align: center;
+	padding: 10px;
+	background: rgba(0,255,0, .2);
+	margin: 0px;
+	width: 100%;
+}
+.statusContainer{
+	display: flex;
+  	align-items: center;
+  	justify-content: center;
+  	background-color: #333;
+}
+.questionText{
+	padding: 10px;
+	padding-bottom: 5px;
+	position: relative;
+}
+
+.hor-end{
+	margin-left: auto;
+	font-weight: bold;
+	margin-right: 30px;
+	margin-bottom: 5px;
+}
+.qFooter{
+	align-self: flex-end;
+	position: absolute;
+    bottom: 5px;
+    right: 5px;
+    font-size: .8em;
+}
+.questionMain, .replyContainer{
+	max-width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 10px;
+}
+.questionMain > h2{
+	margin: 5px;
+}
+.questionBody{
+	margin-top: 20px;
+	margin: 15px;
+}
+
+/* END QUESTIONS */
+
+/* START REPLIES */
+
+.reply{
+	padding-top: 12px;
+	padding-left: 0px;
+}
+.replyText{
+	margin-bottom: 10px;
+	margin-top: 6px;
+}
+.tiny.ts{
+	font-size: .4em;
+	color: #999;
+}
+.name > .fa-star{
+	color: #E6E600;
+}
+.name > .fa-certificate{
+	color: blue;
+}
+.correct{
+	box-shadow: 0px 0px 29px 0px green;
+	border-radius: 3px;
+}
+.doReply{
+	margin-top: 15px;
+	padding: 15px;
+	display: flex-end;
+}
+md-input-container{
+	padding-bottom: 0px !important;
+}
+.md-button.md-default-theme.md-primary.md-fab.correctIcon{
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+
+/* END REPLIES */
+
+/* BEGIN DIALOG */
+
+md-dialog.transition-in.wide{
+	width: 60%;
+}
+.md-subheader.md-default-theme{
+	background-color: #333;
+	color: rgb(139,195,74);
+	font-size: 1.8em;
+}
+md-option{
+	padding-left: 15px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-transform: capitalize;
+	border-bottom: 1px solid rgb(139,195,74);
+}
+md-option:hover{
+	background-color: #CCC;
+	color: black;
+}
+.md-select-menu-container.md-active md-select-menu > *{
+	background-color: #333;
+	color: white;
+}
+.md-dialog-container{
+	background-color: rgba(0,0,0,.5);
+}
+md-dialog.md-default-theme.md-content-overflow .md-actions{
+	background-color: #333;
+}
+md-dialog .md-actions{
+	background-color: #333;
+}
+/* END DIALOG */
+
+/* Shadows */
+
+.shadow-0 {
+    border: 1px solid #eee;
+}
+.shadow-1 {
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+.shadow-2 {
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+}
+.shadow-3 {
+    box-shadow: 0 17px 50px 0 rgba(0, 0, 0, 0.19), 0 12px 15px 0 rgba(0, 0, 0, 0.24);
+}
+.shadow-4 {
+    box-shadow: 0 25px 55px 0 rgba(0, 0, 0, 0.21), 0 16px 28px 0 rgba(0, 0, 0, 0.22);
+}
+.shadow-5 {
+    box-shadow: 0 40px 77px 0 rgba(0, 0, 0, 0.22), 0 27px 24px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Menu style from http://codepen.io/marcysutton/pen/OPbpKm */
+
+.menuBtn {
+  background-color: transparent;
+  border: none;
+  margin-left: 16px;
+}
+md-toolbar{
+	background-color: #333;
+	color: white;
+}
+md-list .md-button {
+  color: inherit;
+  text-align: left;
+  width: 100%;
+}
+md-sidenav {
+  width: 260px !important;
+  min-width: 260px !important;
+  max-width: 260px !important;
+}
+
+/* Using Data-URI converted from svg until <md-icon> becomes available 
+https://github.com/google/material-design-icons
+*/
+.menuBtn {
+  background: transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDI0IDI0IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGcgaWQ9IkhlYWRlciI+CiAgICA8Zz4KICAgICAgICA8cmVjdCB4PSItNjE4IiB5PSItMjIzMiIgZmlsbD0ibm9uZSIgd2lkdGg9IjE0MDAiIGhlaWdodD0iMzYwMCIvPgogICAgPC9nPgo8L2c+CjxnIGlkPSJMYWJlbCI+CjwvZz4KPGcgaWQ9Ikljb24iPgogICAgPGc+CiAgICAgICAgPHJlY3QgZmlsbD0ibm9uZSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ii8+CiAgICAgICAgPHBhdGggZD0iTTMsMThoMTh2LTJIM1YxOHogTTMsMTNoMTh2LTJIM1YxM3ogTTMsNnYyaDE4VjZIM3oiIHN0eWxlPSJmaWxsOiNmM2YzZjM7Ii8+CiAgICA8L2c+CjwvZz4KPGcgaWQ9IkdyaWQiIGRpc3BsYXk9Im5vbmUiPgogICAgPGcgZGlzcGxheT0iaW5saW5lIj4KICAgIDwvZz4KPC9nPgo8L3N2Zz4=) no-repeat  center center;
+}
