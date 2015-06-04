@@ -1,6 +1,6 @@
 {
   "name": "angular-material",
-  "version": "0.9.7",
+  "version": "0.9.6",
   "main": "index",
   "format": "cjs",
   "registry": "github",
@@ -33,7 +33,7 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "./LICENSE.txt"
+      "url": "https://github.com/angular/material/blob/master/LICENSE"
     }
   ],
   "keywords": [

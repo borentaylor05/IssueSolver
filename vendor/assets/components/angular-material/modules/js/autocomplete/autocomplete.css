@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v0.9.7
+ * v0.9.6
  */
 /* mixin definition ; sets LTR and RTL within the same style call */
 @-webkit-keyframes md-autocomplete-list-out {
@@ -81,12 +81,8 @@ md-autocomplete {
     md-autocomplete[md-floating-label] md-autocomplete-wrap {
       height: auto; }
     md-autocomplete[md-floating-label] button {
-      position: absolute;
       top: auto;
-      bottom: 0;
-      right: 0;
-      width: 30px;
-      height: 30px; }
+      bottom: 5px; }
   md-autocomplete md-autocomplete-wrap {
     display: block;
     position: relative;
@@ -112,6 +108,9 @@ md-autocomplete {
         md-autocomplete md-autocomplete-wrap md-progress-linear.ng-leave.ng-leave-active {
           opacity: 0; }
   md-autocomplete input:not(.md-input) {
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 100%;
     box-sizing: border-box;
     border: none;
@@ -125,18 +124,19 @@ md-autocomplete {
     md-autocomplete input:not(.md-input)::-ms-clear {
       display: none; }
   md-autocomplete button {
-    position: relative;
+    position: absolute;
+    top: 10px;
+    right: 10px;
     line-height: 20px;
     text-align: center;
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
     border: none;
     border-radius: 50%;
     padding: 0;
     font-size: 12px;
-    background: transparent;
-    margin: auto 5px; }
+    background: transparent; }
     md-autocomplete button:after {
       content: '';
       position: absolute;

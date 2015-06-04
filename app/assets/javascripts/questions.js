@@ -80,7 +80,8 @@ app.controller('Main', ['$scope', '$timeout', '$mdSidenav', '$mdDialog', 'catego
 		question: false,
 		ask: false,
 		addCat: false
-	}
+	};
+	main.preventStupid = false;
 	$scope.acct = "Account";
 	$scope.toggleSidenav = function(menuId) {
 		$mdSidenav(menuId).toggle();
@@ -92,11 +93,12 @@ app.controller('Main', ['$scope', '$timeout', '$mdSidenav', '$mdDialog', 'catego
 		});
 	}
 	main.getQuestions = function(){
-		main.show.list = true;
-		main.show.question = false;
 		questions.get(main.currentCategory, main.currentStatus).success(function(resp){
-			if(resp.status == 0)
+			if(resp.status == 0){
+				main.show.list = true;
+				main.show.question = false;
 				main.questions = resp.questions;
+			}				
 		});
 	}
 	main.getCurrentUser = function(){
@@ -134,8 +136,11 @@ app.controller('Main', ['$scope', '$timeout', '$mdSidenav', '$mdDialog', 'catego
 		});
 	}
 	main.setStatus = function(status){
-		main.currentStatus = status;
-		main.getQuestions();
+		if(!main.preventStupid){
+			main.currentStatus = status;
+			console.log(status);
+			main.getQuestions();
+		}
 	}
 	main.setCategory = function(category){
 		main.currentCategory = category;
@@ -153,6 +158,7 @@ app.controller('Main', ['$scope', '$timeout', '$mdSidenav', '$mdDialog', 'catego
 		main.show.addCat = !main.show.addCat;
 	}
 	main.go = function(q){
+		main.preventStupid = true;
 		$timeout(function(){
 			main.show.list = false;
 			main.show.question = true;
@@ -160,6 +166,7 @@ app.controller('Main', ['$scope', '$timeout', '$mdSidenav', '$mdDialog', 'catego
 				if(resp.status == 0){
 					main.current = resp.question;
 					console.log(main.current);
+					main.preventStupid = false;
 				}
 			});
 		}, 200);

@@ -18,10 +18,12 @@
 	      	<h1 flex="20" id="appTitle" >WW Coaches</h1>
 	      	<p flex="50" class="hud cap">Showing <span class="bold">{{ main.currentStatus == 'both' ? 'all' : main.currentStatus }}</span> questions in <span class="bold">{{ main.currentCategory }}</span></p>
 	      	<div layout="column" layout-align="center center" flex="10">
-			  <md-select placeholder="Account" ng-model='acct'>
-			    <md-option ng-click="main.newUser($event)" value="1">New User</md-option>
-			    <md-option value="2"><%= link_to "Log out", destroy_user_session_path, :method => :delete %></md-option>
-			  </md-select>
+				<md-select placeholder="Account" ng-model='acct'>
+					<md-option value="0">-</md-option>
+					<md-option ng-click="main.newUser($event)" value="1">New User</md-option>
+					<md-option value="3"><%= link_to "Change Password", edit_user_registration_path %></md-option>
+					<md-option value="4"><%= link_to "Log out", destroy_user_session_path, :method => :delete %></md-option>
+				</md-select>
 			</div>
 	      	<button flex="20" class="md-button ask" md-ink-ripple ng-click="main.askQuestion($event)">Ask a Question</button>
 	    </md-toolbar>
