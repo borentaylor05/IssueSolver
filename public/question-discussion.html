@@ -1,6 +1,6 @@
 <div ng-controller="Question as q" ng-if="showOn" ng-init="q.getReplies(question)">
 	<div class="md-whiteframe-z2 questionMain questionText" flex>
-		<h2 class="slim"> {{ question.title }} <a ng-if="question.answered" href="#correct" class="jump">Jump to answer</a> </h2>		
+		<h2 class="slim"> {{ question.title }} <a ng-if="q.current.answered" href="#correct" class="jump">Jump to answer</a> </h2>		
 		<span class="fading-line"></span>
 		<div class="questionBody">
 			{{ question.body }}
