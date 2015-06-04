@@ -21,14 +21,17 @@ Rails.application.routes.draw do
 	# User 
 	match "/api/user/current", to: "users#get_current_user", via: :get
 	# Questions
-	match "/api/questions/:category/:status", to: "questions#get_issues", via: :get
+	match "/api/questions/:category/:status", to: "questions#get_questions", via: :get
 	match "/api/questions/:id", to: "questions#get_current_question", via: :get
 	match "/api/questions", to: "questions#create_question", via: :post
 	match "/api/questions/:id/reply", to: "questions#create_question_reply", via: :post
 	match "/api/questions/:id/get/replies", to: "questions#get_question_replies", via: :get
+	match "/api/questions/:id/answer", to: "questions#answer", via: :post
 	# Categories
 	match "/api/categories", to: "categories#get_categories", via: :get
 	match "/api/categories/create", to: "categories#create_category", via: :post
+	# User
+	match "/api/users", to: "users#create_user", via: :post
 	# END API-like routes
 
 end

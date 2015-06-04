@@ -14,7 +14,7 @@
 			</div>	
 		</div>
 		<div ng-hide="main.questions.length == 0" layout="row">
-			<div class="hor-end">Answered?</div>	
+			<div class="hor-end"># Unread</div>	
 		</div>
 		<div class="question md-whiteframe-z4" layout horizontal ng-repeat="q in main.questions">
 			<button ng-click="main.go(q)" block class="answerBtn md-button answerBtnContainer" md-ink-ripple flex="13">
@@ -30,8 +30,8 @@
 				</div>
 			</div>
 			<div center flex="12" class="statusContainer">
-				<md-button aria-label="blah" class="md-fab" ng-class="q.answered ? 'green' : 'red' "> 
-					<i class="fa" ng-class="q.answered ? 'fa-check' : 'fa-close' "></i> 
+				<md-button aria-label="blah" class="md-fab unread reg" ng-class="q.answered ? 'green' : 'red' "> 
+					{{ q.unread }} 
 				</md-button>
 			</div>
 		</div>

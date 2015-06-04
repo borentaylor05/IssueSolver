@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  $valid_classes = [ "Array", "ActiveRecord::Relation", "ActiveRecord::Associations::CollectionProxy" ]
+
   def after_sign_in_path_for(resource)
     "/"
   end
@@ -17,7 +19,7 @@ class ApplicationController < ActionController::Base
   # array = array of objects
     def apify(array)
         Rails.logger.info(array.class.name)
-        if array.class.name == "ActiveRecord::Relation" or array.class.name == "ActiveRecord::Associations::CollectionProxy"
+        if $valid_classes.include?(array.class.name)
             newArr = []
             array.each do |a|
                 na = a.attributes
@@ -25,6 +27,9 @@ class ApplicationController < ActionController::Base
                     na["user"] = a.user
                 end
                 na["created_at"] = "#{time_ago_in_words(a.created_at)} ago"
+                if a.class.name == "Question"
+                  na[:unread] = a.get_user_unread(current_user)
+                end
                 newArr.push(na)
             end
             return newArr

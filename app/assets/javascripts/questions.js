@@ -24,6 +24,17 @@ app.directive("questionDiscussion", function(){
 	}
 });
 
+app.directive("onHover", function(){
+	return function(scope, el, attr){
+		el.on("mouseenter", function(){
+			el.removeClass("hide");
+		});
+		el.on("mouseleave", function(){
+			el.addClass("hide");
+		});
+	}
+});
+
 app.factory("category", function($http){
 	var cat = {};
 
@@ -59,6 +70,9 @@ app.factory("questions", function($http){
 	q.getReplies = function(question){
 		return $http.get("/api/questions/"+question.id+"/get/replies");
 	}
+	q.answer = function(question, reply){
+		return $http.post("/api/questions/"+question.id+"/answer", { reply: reply });
+	}
 
 	return q;
 });
@@ -69,11 +83,14 @@ app.factory("users", function($http){
 	u.getCurrent = function(){
 		return $http.get("/api/user/current");
 	}
+	u.create = function(user){
+		return $http.post("/api/users", user);
+	}
 
 	return u;
 })
 
-app.controller('Main', ['$scope', '$timeout', '$mdSidenav', '$mdDialog', 'category', 'questions', 'users', function($scope, $timeout, $mdSidenav, $mdDialog, category, questions, users){
+app.controller('Main', ['$scope', '$timeout', '$interval', '$mdSidenav', '$mdDialog', 'category', 'questions', 'users', function($scope, $timeout, $interval, $mdSidenav, $mdDialog, category, questions, users){
 	var main = this;
 	main.show = {
 		list: true,
@@ -95,14 +112,17 @@ app.controller('Main', ['$scope', '$timeout', '$mdSidenav', '$mdDialog', 'catego
 	main.getQuestions = function(){
 		questions.get(main.currentCategory, main.currentStatus).success(function(resp){
 			if(resp.status == 0){
+				console.log(resp);
 				main.show.list = true;
 				main.show.question = false;
 				main.questions = resp.questions;
+				main.currentUser = resp.current;
 			}				
 		});
 	}
 	main.getCurrentUser = function(){
 		users.getCurrent().success(function(resp){
+			console.log("USER", resp)
 			if(status == 0)
 				main.currentUser = resp.user
 		});
@@ -165,21 +185,40 @@ app.controller('Main', ['$scope', '$timeout', '$mdSidenav', '$mdDialog', 'catego
 			questions.getCurrent(q).success(function(resp){
 				if(resp.status == 0){
 					main.current = resp.question;
-					console.log(main.current);
 					main.preventStupid = false;
+					$timeout(function(){
+						main.getCurrentUser();
+					}, 1000);
 				}
 			});
 		}, 200);
+	}
+	main.chooseAnswer = function(reply){
+		questions.answer(reply).success(function(resp){
+			console.log(resp);
+		});
+	}
+	main.refresh = function(){
+		if(main.show.list){
+			main.getQuestions();
+		}
+		else if(main.show.question){
+			main.go(main.current);
+		}
 	}
 	main.currentStatus = 'unanswered';
 	main.currentCategory = 'my questions';
 	main.placeCategories();
 	main.getQuestions();
-	main.getCurrentUser();
+	// $interval(function(){
+	// 	main.refresh();
+	// }, 30000);
 }]);
 
 app.controller("Question", function($scope,$timeout,questions){
 	var q = this;
+	q.currentReply = {};
+	q.current = {};
 	q.reply = function(question,reply){
 		var nq = { id: question.id, reply: reply }
 		q.replyBody = null;
@@ -188,15 +227,50 @@ app.controller("Question", function($scope,$timeout,questions){
 				q.getReplies(question);
 		});
 	}
-	q.getReplies = function(question){
-		$scope.$watch("question", function(){
-			if($scope.question){
-				questions.getReplies($scope.question).success(function(resp){
-					if(resp.status == 0)
-						q.replies = resp.replies;
-				});
-			}
-	    });
+	q.getReplies = function(question){	
+		// if(!question){
+		// 	$scope.$watch("question", function(){
+		// 		if($scope.question){
+		// 			q.current = $scope.question;
+		// 			questions.getReplies($scope.question).success(function(resp){
+		// 				console.log("REP", resp);
+		// 				if(resp.status == 0)
+		// 					q.replies = resp.replies;
+		// 			});
+		// 		}
+		//     });
+		// }
+		if(question){
+			q.current = question;
+			questions.getReplies(question).success(function(resp){
+				console.log("REP2", resp);
+				if(resp.status == 0)
+					q.replies = resp.replies;
+			});
+		}	
+	}
+	q.answer = function(reply){
+		questions.answer(q.current, reply).success(function(resp){
+			if(resp.status == 0){
+				q.current = resp.question;
+				q.getReplies(q.current);				
+			}				
+		});	
+	}
+	q.setActive = function(r){
+		q.currentReply = r;
+	}
+	q.isActive = function(r){
+		if(r == q.currentReply)
+			return true;
+		else
+			return false;
+	}
+	q.showCheck = function(user){
+		if(!q.current.answered && ( q.current.user == user || user.admin || user.mentor || user.l2 ))
+			return true;
+		else
+			return false;
 	}
 });
 
@@ -228,7 +302,7 @@ app.controller("AskCtrl", function($scope, $mdDialog, category, questions){
 });
 
 app.controller("NewUserCtrl", function($scope, $mdDialog, users){
-	var ask = this;
+	var nu = this;
 	$scope.hide = function() {
 		$mdDialog.hide();
 	};
@@ -238,4 +312,9 @@ app.controller("NewUserCtrl", function($scope, $mdDialog, users){
 	$scope.answer = function(answer) {
 		$mdDialog.hide(answer);
 	};
+	nu.createUser = function(user){
+		users.create(user).success(function(resp){
+			console.log(resp);
+		});
+	}
 });

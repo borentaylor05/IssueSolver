@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150603194506) do
+ActiveRecord::Schema.define(version: 20150604153141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,14 @@ ActiveRecord::Schema.define(version: 20150603194506) do
     t.boolean  "is_answer",   default: false
   end
 
+  create_table "reply_trackers", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "question_id"
+    t.integer  "unread"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
@@ -62,6 +70,7 @@ ActiveRecord::Schema.define(version: 20150603194506) do
     t.boolean  "mentor",                 default: false
     t.boolean  "admin"
     t.boolean  "l2"
+    t.integer  "total_unread",           default: 0
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

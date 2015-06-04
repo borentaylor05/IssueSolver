@@ -12,10 +12,29 @@ class QuestionsController < ApplicationController
 
 	# API-like controllers
 
+	def answer
+		q = Question.find_by(id: params[:id])
+		reply = Reply.find_by(id: params[:reply][:id])
+		Rails.logger.info "THIS REPLY -------> #{params[:reply]} "
+		if q and reply
+			q.update_attributes(answered: true)
+			reply.update_attributes(is_answer: true)
+			respond({ status: 0, question: q })
+		else
+			respond({ status: 1, error: "Question #{params[:id]} not found. Or reply #{params[:reply][:id]} not found." })
+		end
+	end
+
 	def get_question_replies
 		q = Question.find_by(id: params[:id])
 		if q 
-			Rails.logger.info(q.replies)
+			rt = ReplyTracker.find_by(question: q, user: current_user)
+			if rt
+				current_user.update_attributes(total_unread: current_user.total_unread -= rt.unread)
+				rt.update_attributes(unread: 0)
+			else
+				Rails.logger.info("No RT for #{current_user.name} and #{q.title} ")
+			end
 			respond({ status: 0, replies: apify(q.replies) })
 		else
 			respond({ status: 1, error: "Question #{params[:id]} not found." })
@@ -32,7 +51,25 @@ class QuestionsController < ApplicationController
 				)
 			if r.valid?
 				r.save
-				respond({ status: 0, reply: r }) 
+				rt = ReplyTracker.find_by(user: current_user, question: q)
+				if !rt
+					rt = ReplyTracker.new(
+						user: current_user,
+						question: q,
+						unread: 0
+					)
+					if rt.valid?
+						rt.save
+						rt.increment_all(q, current_user)
+						respond({ status: 0, reply: r, message: "Tracking Replies" })
+					else
+						respond({ status: 1, error: "ReplyTracker error: #{rt.errors.full_messages}" })
+					end
+				else
+					# increment number of unread for all users except current
+					rt.increment_all(q, current_user)
+					respond({ status: 0, reply: r }) 
+				end
 			else
 				respond({ status: 1, error: r.errors.full_messages }) 
 			end
@@ -50,18 +87,28 @@ class QuestionsController < ApplicationController
 		)
 		if q.valid?
 			q.save
-			respond({ status: 0, question: q })
+			rt = ReplyTracker.new(
+				user: current_user,
+				question: q,
+				unread: 0	
+			)
+			if rt.valid? 
+				rt.save
+				respond({ status: 0, question: q })
+			else
+				respond({ status: 1, error: "ReplyTracker error: #{rt.errors.full_messages}" })
+			end
 		else
 			respond({ status: 1, error: q.errors.full_messages })
 		end
 		
 	end
 
-	def get_issues
+	def get_questions
 		if params[:category] == "my-questions"
-			respond({ status: 0, questions: apify(current_user.questions(params[:status])) })
+			respond({ status: 0, questions: apify(current_user.questions(params[:status])), current: current_user })
 		elsif !params[:category] and !params[:status]
-			respond({ status: 0, questions: Question.where(answered: false).limit(25) })
+			respond({ status: 0, questions: Question.where(answered: false).limit(25), current: current_user })
 		else
 			if params[:category]
 				params[:category] = params[:category].split("-").join(" ")
@@ -76,13 +123,13 @@ class QuestionsController < ApplicationController
 			end	
 			Rails.logger.info("CAT - #{cat} --- TYPE - #{params[:status]}")
 			if cat and both
-				respond({ status: 0, questions: apify(Question.where(category: cat).limit(25)) })
+				respond({ status: 0, questions: apify(Question.where(category: cat).limit(25)), current: current_user })
 			elsif cat and !both
-				respond({ status: 0, questions: apify(Question.where(category: cat, answered: answered).limit(25)) })
+				respond({ status: 0, questions: apify(Question.where(category: cat, answered: answered).limit(25)), current: current_user })
 			elsif !cat and both 
-				respond({ status: 0, questions: apify(Question.all.limit(25)) })
+				respond({ status: 0, questions: apify(Question.all.limit(25)), current: current_user })
 			elsif !cat and !both
-				respond({ status: 0, questions: apify(Question.where(answered: answered).limit(25)) })
+				respond({ status: 0, questions: apify(Question.where(answered: answered).limit(25)), current: current_user })
 			else
 				respond({ status: 1, error: "Check Query" })
 			end

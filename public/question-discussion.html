@@ -1,6 +1,6 @@
 <div ng-controller="Question as q" ng-if="showOn" ng-init="q.getReplies(question)">
 	<div class="md-whiteframe-z2 questionMain questionText" flex>
-		<h2 class="slim"> {{ question.title }} </h2>		
+		<h2 class="slim"> {{ question.title }} <a ng-if="question.answered" href="#correct" class="jump">Jump to answer</a> </h2>		
 		<span class="fading-line"></span>
 		<div class="questionBody">
 			{{ question.body }}
@@ -10,56 +10,25 @@
 	<div class="replyContainer" flex>
 		<h2 class="slim">Replies</h2>
 		<span class="fading-line"></span>
-		<div class="reply">
-			<div layout="row">
-				<div flex="10">
-					<md-button class="md-fab md-primary md-mini correctIcon" aria-label="Play">
-					  <md-tooltip>
-					    Mark as Correct
-					  </md-tooltip>
-					  <i class="fa fa-check"></i>
-					</md-button>
-				</div>
-				<div flex="90">
-					<h3 class="name slim"><i class="fa fa-certificate fa-border"></i> L2 Name <span class="ts tiny"> replied 2 days ago </span> </h3>
-					<div class="replyText">
-						This is an example answer from an L2 agent.
-					</div>
-				</div>
-			</div>
-			<span class="fading-line"></span>
-		</div>
-		<div class="reply">
-			<div layout="row">
-				<div flex="10">
-					<md-button class="md-fab md-primary md-mini correctIcon" aria-label="Play">
-					  <md-tooltip>
-					    Mark as Correct
-					  </md-tooltip>
-					  <i class="fa fa-check"></i>
-					</md-button>
-				</div>
-				<div flex="90">
-					<h3 class="name slim"><i class="fa fa-star fa-border"></i> Mentor Name <span class="ts tiny"> replied 2 days ago </span> </h3>
-					<div class="replyText">
-						This is an example answer from a coach mentor.
-					</div>
-				</div>
-			</div>
-			<span class="fading-line"></span>
-		</div>
 		<div class="reply" ng-repeat="r in q.replies">
-			<div layout="row">
-				<div flex="10">
-					<md-button class="md-fab md-primary md-mini correctIcon" aria-label="Play">
+			<div layout="row" ng-class="r.is_answer ? 'correct' : ''" ng-attr-id="{{ r.is_answer ? 'correct' : '' }}">
+				<div ng-class="q.current.answered ? 'hide' : ''" flex="5" ng-mouseover="q.setActive(r)">
+					<md-button	
+						ng-if="q.isActive(r) && q.canAnswer(user)"					
+						class="md-fab md-primary md-mini correctIcon" 
+						aria-label="Answer"
+						ng-click="q.answer(r)">
 					  <md-tooltip>
 					    Mark as Correct
 					  </md-tooltip>
 					  <i class="fa fa-check"></i>
 					</md-button>
 				</div>
-				<div flex="90">
-					<h3 class="name slim">Taylor Boren <span class="ts tiny"> {{r.created_at}} </span> </h3>
+				<div flex="95" class="rContainer">
+					<h3 class="name slim">
+						<i ng-if="r.user.mentor" class="fa fa-star fa-border"></i>
+						<i ng-if="r.user.l2" class="fa fa-certificate fa-border"></i>
+						{{ r.user.name }} <span class="ts tiny"> {{r.created_at}} </span> </h3>
 					<div class="replyText">
 						{{ r.body }}
 					</div>

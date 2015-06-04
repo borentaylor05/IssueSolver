@@ -64,6 +64,12 @@
 	          			<span class="ng-scope">
 	          				<i ng-class="cat.icon ? cat.icon : 'fa-question-circle' " class="fa"></i>
 	          				{{cat.name}}
+	          				<md-button ng-if="$index == 0" class="md-fab md-mini unread">
+	          					<md-tooltip>
+									You have {{ main.currentUser.total_unread }} unread replies.
+	          					</md-tooltip>
+								<span>{{ main.currentUser.total_unread }}</span>
+	          				</md-button>	
 	          			</span>
 	          			<div class="md-ripple-container"></div>
 	          		</button>
