@@ -35,7 +35,7 @@ class QuestionsController < ApplicationController
 			else
 				Rails.logger.info("No RT for #{current_user.name} and #{q.title} ")
 			end
-			respond({ status: 0, replies: apify(q.replies) })
+			respond({ status: 0, replies: apify(q.replies), question: apify(q) })
 		else
 			respond({ status: 1, error: "Question #{params[:id]} not found." })
 		end

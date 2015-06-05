@@ -19,7 +19,7 @@
 		<div class="question md-whiteframe-z4" layout horizontal ng-repeat="q in main.questions">
 			<button ng-click="main.go(q)" block class="answerBtn md-button answerBtnContainer" md-ink-ripple flex="13">
 				<i class="fa fa-comments-o"></i>
-				<span> {{ q.answered ? "See Answer" : "Answer" }} </span>
+				<span> {{ q.answered ? "See Answer" : "Answer It" }} </span>
 			</button>
 			<div flex="75" class="questionText">
 				<span>{{ q.body }}</span>
@@ -37,4 +37,4 @@
 		</div>
 	</div>
 </div>
-<question-discussion show-on="main.show.question" question="main.current" user="main.currentUser"></question-discussion>	
+<!-- <question-discussion show-on="main.show.question" question="main.current" user="main.currentUser"></question-discussion>	 -->

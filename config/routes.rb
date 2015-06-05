@@ -13,9 +13,7 @@ Rails.application.routes.draw do
 	root to: "questions#home"
 	resources :questions, except: [:index]
 
-	match "/questions", to: "questions#home", via: :get
-	match "/questions/:category", to: "questions#home", via: :get
-	match "/questions/:category/:status", to: "questions#home", via: :get
+	match "/questions/:id", to: "questions#show", via: :get
 
 	# API-like routes
 	# User 

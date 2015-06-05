@@ -1,11 +1,11 @@
-<div ng-controller="Question as q" ng-if="showOn" ng-init="q.getReplies(question)">
+<div ng-controller="Question as q" >
 	<div class="md-whiteframe-z2 questionMain questionText" flex>
-		<h2 class="slim"> {{ question.title }} <a ng-if="q.current.answered" href="#correct" class="jump">Jump to answer</a> </h2>		
+		<h2 class="slim"> {{ q.current.title }} <a ng-if="q.current.answered" href="#correct" class="jump">Jump to answer</a> </h2>		
 		<span class="fading-line"></span>
 		<div class="questionBody">
-			{{ question.body }}
+			{{ q.current.body }}
 		</div>
-		<p class="tiny block slim qFooter"> asked by {{ user.name }} {{ question.created_at }} </p>
+		<p class="tiny block slim qFooter"> asked by {{ user.name }} {{ q.current.created_at }} </p>
 	</div>
 	<div class="replyContainer" flex>
 		<h2 class="slim">Replies</h2>
@@ -37,7 +37,7 @@
 			<span class="fading-line"></span>
 		</div>
 		<div class="doReply md-whiteframe-z3">
-			<form ng-submit="q.reply(question, q.replyBody)">
+			<form ng-submit="q.reply(q.current, q.replyBody)">
 				<md-input-container flex="" class="md-default-theme md-input-has-value">
 	                <label for="body">Type Your Answer</label>
 	                <textarea ng-model="q.replyBody" columns="1" md-maxlength="350" class="md-input ng-valid-md-maxlength" id="body" ng-trim="false" aria-multiline="false" tabindex="0" aria-invalid="false" ></textarea>
