@@ -6,6 +6,8 @@ class ReplyTracker < ActiveRecord::Base
 	belongs_to :question 
 	belongs_to :user
 
+	default_scope { order('created_at DESC') }
+
 	def increment_all(question, user)
 		ReplyTracker.where(question: question).each do |rt|
 			if rt.user != user
