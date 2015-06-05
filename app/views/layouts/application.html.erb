@@ -16,7 +16,9 @@
 	        <span class="visually-hidden"></span>
 	      </button>
 	      	<h1 flex="20" id="appTitle" >WW Coaches</h1>
-	      	<p flex="50" class="hud cap">Showing <span class="bold">{{ main.currentStatus == 'both' ? 'all' : main.currentStatus }}</span> questions in <span class="bold">{{ main.currentCategory }}</span></p>
+	      	<div flex="50"> 
+	      		<p ng-if="main.showHud" class="hud cap">Showing <span class="bold">{{ main.currentStatus == 'both' ? 'all' : main.currentStatus }}</span> questions in <span class="bold">{{ main.currentCategory }}</span></p>
+	      	</div>
 	      	<div layout="column" layout-align="center center" flex="10">
 				<md-select placeholder="Account" ng-model='acct'>
 					<md-option value="0">-</md-option>

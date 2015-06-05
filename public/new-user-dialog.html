@@ -1,11 +1,14 @@
 <md-dialog class="wide" aria-label="New User">
-    <form>
+    <form name="newUser" novalidate>
     <md-dialog-content class="sticky-container">
         <md-subheader class="md-sticky-no-effect">New User</md-subheader>
         <div>
             <md-input-container flex="40" class="md-default-theme">
               <label for="title">Jive Username / Employee ID</label>
-              <input ng-model="nu.user.employee_id" class="md-input" id="title" tabindex="0" aria-invalid="false">
+              <input name="eid" ng-model="nu.user.employee_id" class="md-input" id="eid" tabindex="0" aria-invalid="false" required>
+              <div ng-messages="newUser.eid.$error && !newUser.eid.$pristine">
+                <div ng-message="required">This is required.</div>
+              </div>
             </md-input-container>
             <div layout="row">
               <md-input-container flex="40" class="md-default-theme">

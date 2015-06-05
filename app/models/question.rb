@@ -16,9 +16,9 @@ class Question < ActiveRecord::Base
 	def get_user_unread(user)
 		rt =  ReplyTracker.find_by(question: self, user: user)
 		if rt 
-			return rt.unread 
+			return { unread: rt.unread, status: true } 
 		else
-			return 0
+			return { unread: 0, status: false }
 		end		
 	end
 

@@ -12,6 +12,29 @@ class QuestionsController < ApplicationController
 
 	# API-like controllers
 
+	def follow
+		q = Question.find_by(id: params[:id])
+		rt = ReplyTracker.find_by(user: current_user, question: q)
+		if q and !rt
+			rt = ReplyTracker.new(
+				user: current_user,
+				question: q,
+				unread: 0
+			)
+			if rt.valid?
+				rt.save
+				respond({ status: 0, question: q, message: "followed" })
+			else
+				respond({ status: 1, error: rt.errors.full_messages })
+			end
+		elsif rt
+			rt.destroy
+			respond({ status: 0, question: q, message: "unfollowed" })	
+		else
+			respond({ status: 1, error: "Question #{params[:id]} not found or already following." })
+		end
+	end
+
 	def answer
 		q = Question.find_by(id: params[:id])
 		reply = Reply.find_by(id: params[:reply][:id])

@@ -21,7 +21,7 @@
 				<i class="fa fa-comments-o"></i>
 				<span> {{ q.answered ? "See Answer" : "Answer It" }} </span>
 			</button>
-			<div flex="75" class="questionText">
+			<div flex="65" class="questionText">
 				<span>{{ q.body }}</span>
 				<div style="margin-top:20px;">
 					<div class="qFooter">
@@ -29,6 +29,10 @@
 					</div>
 				</div>
 			</div>
+			<button ng-click="main.follow(q)" block class="followBtn md-button answerBtnContainer" md-ink-ripple flex="10">
+				<i class="fa" ng-class="q.unread_status ? 'fa-check' : 'fa-plus'"></i>
+				<span> {{ q.unread_status ? 'Following' : 'Follow' }} </span>
+			</button>
 			<div center flex="12" class="statusContainer">
 				<md-button aria-label="blah" class="md-fab unread reg" ng-class="q.answered ? 'green' : 'red' "> 
 					{{ q.unread }} 

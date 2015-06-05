@@ -25,6 +25,7 @@ Rails.application.routes.draw do
 	match "/api/questions/:id/reply", to: "questions#create_question_reply", via: :post
 	match "/api/questions/:id/get/replies", to: "questions#get_question_replies", via: :get
 	match "/api/questions/:id/answer", to: "questions#answer", via: :post
+	match "/api/questions/:id/follow", to: "questions#follow", via: :post
 	# Categories
 	match "/api/categories", to: "categories#get_categories", via: :get
 	match "/api/categories/create", to: "categories#create_category", via: :post

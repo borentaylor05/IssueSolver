@@ -28,7 +28,9 @@ class ApplicationController < ActionController::Base
                 end
                 na["created_at"] = "#{time_ago_in_words(a.created_at)} ago"
                 if a.class.name == "Question"
-                  na[:unread] = a.get_user_unread(current_user)
+                  ur = a.get_user_unread(current_user)
+                  na[:unread] = ur[:unread]
+                  na[:unread_status] = ur[:status]
                 end
                 newArr.push(na)
             end

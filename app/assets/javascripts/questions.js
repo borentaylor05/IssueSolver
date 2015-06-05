@@ -73,6 +73,9 @@ app.factory("questions", function($http){
 	q.answer = function(question, reply){
 		return $http.post("/api/questions/"+question.id+"/answer", { reply: reply });
 	}
+	q.follow = function(question_id){
+		return $http.post("/api/questions/"+question_id+"/follow");
+	}
 
 	return q;
 });
@@ -200,22 +203,28 @@ app.controller('Main', ['$scope', '$timeout', '$interval', '$mdSidenav', '$mdDia
 	main.openCat = function(){
 		main.show.addCat = !main.show.addCat;
 	}
+	main.follow = function(question){
+		if(question.unread_status){
+			if(confirm("Are you sure you want to unfollow?  This will reset your unread reply count for this question.")){
+				questions.follow(question.id).success(function(resp){
+					if(resp.status == 0)
+						question.unread_status = !question.unread_status;
+				});
+			}
+		}
+		else{
+			questions.follow(question.id).success(function(resp){
+				if(resp.status == 0)
+					question.unread_status = !question.unread_status;
+			});
+		}
+		
+	}
 	main.go = function(q){
 		main.preventStupid = true;
 		$timeout(function(){
-		//	main.show.list = false;
-		//	main.show.question = true;
 			window.location.href = "/questions/"+q.id;
-			// questions.getCurrent(q).success(function(resp){
-			// 	if(resp.status == 0){
-			// 		main.current = resp.question;
-			// 		main.preventStupid = false;
-			// 		$timeout(function(){
-			// 			main.getCurrentUser();
-			// 		}, 1000);
-			// 	}
-			// });
-		}, 200);
+		}, 100);
 	}
 	main.chooseAnswer = function(reply){
 		questions.answer(reply).success(function(resp){
@@ -235,6 +244,7 @@ app.controller('Main', ['$scope', '$timeout', '$interval', '$mdSidenav', '$mdDia
 		main.currentCategory = 'my questions';
 		main.placeCategories();
 		main.getQuestions();
+		main.showHud = true;
 	}
 	main.placeCategories();
 	main.getCurrentUser();
