@@ -288,6 +288,7 @@ md-input-container{
 	box-shadow: 0 0 2px 1px green;
 	background-color: rgba(0,255,0,.1);
 	padding: 5px;
+	margin-bottom: 7px;
 }
 
 .jump{

@@ -57458,6 +57458,9 @@ app.config(function($mdThemingProvider) {
 app.directive("questionDiscussion", function(){
 	return {
 		restrict: "E",
+		scope: {
+			user: "="
+		},
 		templateUrl: "/question-discussion.html"
 	}
 });
@@ -57699,6 +57702,9 @@ app.controller("Question", function($scope,$timeout,questions, users){
 			if(resp.status == 0){
 				q.replies = resp.replies;
 				q.current = resp.question;
+				$timeout(function(){
+					q.getCurrentUser();
+				}, 500);
 			}					
 		});
 	}
@@ -57709,6 +57715,14 @@ app.controller("Question", function($scope,$timeout,questions, users){
 				q.getReplies(q.current.id);				
 			}				
 		});	
+	}
+	q.getCurrentUser = function(){
+		users.getCurrent().success(function(resp){
+			if(status == 0){
+				$scope.user = resp.user
+				$scope.$parent.$parent.main.currentUser = resp.user;
+			}				
+		});
 	}
 	q.setActive = function(r){
 		q.currentReply = r;
