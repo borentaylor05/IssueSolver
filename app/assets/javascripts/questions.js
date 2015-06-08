@@ -263,10 +263,16 @@ app.controller('Main', ['$scope', '$timeout', '$interval', '$mdSidenav', '$mdDia
 	}
 	if(window.location.pathname == "/"){
 		if(!main.currentCategory || !main.currentStatus){
-			var parts = window.location.hash.split(":");
-			parts[0] = parts[0].replace("#", '');
-			main.currentCategory = parts[0];
-			main.currentStatus = parts[1];
+			if(!window.location.hash){
+				main.currentCategory = 'my-questions';
+				main.currentStatus = 'unanswered';
+			}
+			else{
+				var parts = window.location.hash.split(":");
+				parts[0] = parts[0].replace("#", '');
+				main.currentCategory = parts[0];
+				main.currentStatus = parts[1];
+			}
 		}
 		main.currentPage = 1;
 		main.getQuestions();
