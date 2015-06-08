@@ -5,7 +5,7 @@
 		<div class="questionBody">
 			{{ q.current.body }}
 		</div>
-		<p class="tiny block slim qFooter"> asked by {{ user.name }} {{ q.current.created_at }} </p>
+		<p class="tiny block slim qFooter"> asked by {{ q.current.user.name }} {{ q.current.created_at }} </p>
 	</div>
 	<div class="replyContainer" flex>
 		<h2 class="slim">Replies</h2>

@@ -34,7 +34,7 @@
 				<span> {{ q.unread_status ? 'Following' : 'Follow' }} </span>
 			</button>
 			<div center flex="12" class="statusContainer">
-				<md-button aria-label="blah" class="md-fab unread reg" ng-class="q.answered ? 'green' : 'red' "> 
+				<md-button ng-click="main.go(q)" aria-label="blah" class="md-fab unread reg" ng-class="q.answered ? 'green' : 'red' "> 
 					{{ q.unread }} 
 				</md-button>
 			</div>
