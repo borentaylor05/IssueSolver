@@ -13,6 +13,16 @@ app.config(function($mdThemingProvider) {
     .accentPalette('lime');
   });
 
+app.directive("loader", function(){
+	return {
+		restrict: "E",
+		scope: {
+			loading: "="
+		},
+		template: '<div ng-show="loading"><md-progress-circular md-mode="indeterminate"></md-progress-circular></div>'		
+	}
+});
+
 app.directive("questionDiscussion", function(){
 	return {
 		restrict: "E",
@@ -109,6 +119,7 @@ app.controller('Main', ['$scope', '$timeout', '$interval', '$mdSidenav', '$mdDia
 		});
 	}
 	main.getQuestions = function(){
+		main.loading = true;
 		if(!main.currentCategory || !main.currentStatus){
 			var parts = window.location.hash.split(":");
 			parts[0] = parts[0].replace("#", '');
@@ -122,6 +133,7 @@ app.controller('Main', ['$scope', '$timeout', '$interval', '$mdSidenav', '$mdDia
 			if(resp.status == 0){
 				main.questions = resp.questions;
 				main.currentUser = resp.current;
+				main.loading = false;
 			}				
 		});
 	}
@@ -303,6 +315,7 @@ app.controller("Question", function($scope,$timeout,questions, users){
 		});
 	}
 	q.getReplies = function(question_id){	
+		q.loading = true;
 		questions.getReplies(question_id).success(function(resp){
 			if(resp.status == 0){
 				q.replies = resp.replies;
@@ -310,6 +323,7 @@ app.controller("Question", function($scope,$timeout,questions, users){
 				$timeout(function(){
 					q.getCurrentUser();
 				}, 500);
+				q.loading = false;
 			}					
 		});
 	}

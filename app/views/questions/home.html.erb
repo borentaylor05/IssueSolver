@@ -6,7 +6,7 @@
 			<md-tab flex label="both" md-on-select="main.setStatus('both')"></md-tab>
 		</md-tabs>
 	</div>
-
+	<loader loading="main.loading"></loader>
 	<div layout="column" class="questionsContainer">
 		<div ng-show="main.questions.length == 0" layout="row">
 			<div flex class="md-whiteframe-z2 cap warn red">

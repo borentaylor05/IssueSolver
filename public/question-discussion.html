@@ -7,6 +7,7 @@
 		</div>
 		<p class="tiny block slim qFooter"> asked by {{ q.current.user.name }} {{ q.current.created_at }} </p>
 	</div>
+	<loader loading="q.loading"></loader>
 	<div class="replyContainer" flex>
 		<h2 class="slim">Replies ({{ q.current.total_replies }}) </h2>
 		<span class="fading-line"></span>
