@@ -1,19 +1,19 @@
 <md-dialog class="wide" aria-label="New Question">
-    <form>
+    <form name="qForm" novalidate>
     <md-dialog-content class="sticky-container">
         <md-subheader class="md-sticky-no-effect">New Question</md-subheader>
         <div>
             <md-input-container flex="" class="md-default-theme">
               <label for="title">Question Title - a good label for this question</label>
-              <input ng-model="question.title" class="md-input" id="title" tabindex="0" aria-invalid="false">
+              <input ng-model="question.title" class="md-input" id="title" tabindex="0" aria-invalid="false" required>
             </md-input-container>
             <md-select ng-model="question.category" md-on-open="ask.getCategories()" style="min-width: 400px;">
                 <md-select-label class="cap">{{ question.category ? question.category.name : 'Choose a Category' }}</md-select-label>
-                <md-option ng-value="cat" ng-repeat="cat in ask.categories">{{cat.name}}</md-option>
+                <md-option ng-value="cat" ng-repeat="cat in ask.categories" required>{{cat.name}}</md-option>
             </md-select>
             <md-input-container flex="" class="md-default-theme md-input-has-value">
                 <label for="body">What Is Your Question?</label>
-                <textarea ng-model="question.body" columns="1" md-maxlength="350" class="md-input ng-valid-md-maxlength" id="body" ng-trim="false" aria-multiline="false" tabindex="0" aria-invalid="false" ></textarea>
+                <textarea ng-model="question.body" columns="1" md-maxlength="350" class="md-input ng-valid-md-maxlength" id="body" ng-trim="false" aria-multiline="false" tabindex="0" aria-invalid="false" required></textarea>
             </md-input-container>
         </div>
     </md-dialog-content>
@@ -22,7 +22,7 @@
     <md-button ng-click="cancel()" class="md-primary">
      Cancel
     </md-button>
-    <md-button  ng-click="ask.askQuestion(question)" class="md-raised md-primary">
+    <md-button ng-disabled="qForm.$invalid || !question.category" ng-click="ask.askQuestion(question)" class="md-raised md-primary">
       Submit Question
     </md-button>
   </div>

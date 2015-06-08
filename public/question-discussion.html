@@ -12,17 +12,17 @@
 		<span class="fading-line"></span>
 		<div class="reply" ng-repeat="r in q.replies">
 			<div layout="row" ng-class="r.is_answer ? 'correct' : ''" ng-attr-id="{{ r.is_answer ? 'correct' : '' }}">
-				<div ng-class="q.current.answered ? 'hide' : ''" flex="5" ng-mouseover="q.setActive(r)">
-					<md-button	
-						ng-if="q.isActive(r) && q.canAnswer(user)"					
-						class="md-fab md-primary md-mini correctIcon" 
-						aria-label="Answer"
-						ng-click="q.answer(r)">
-					  <md-tooltip>
-					    Mark as Correct
-					  </md-tooltip>
-					  <i class="fa fa-check"></i>
-					</md-button>
+				<div ng-class="!q.current.answered && q.showCheck(user) ? '' : 'hide'" flex="5" ng-mouseover="q.setActive(r)">
+					<div >
+						<i ng-click="q.answer(r)" class="fa fa-check fa-3x check"></i>
+						<md-tooltip>Mark as Correct</md-tooltip>
+					</div>
+				</div>
+				<div ng-if="r.is_answer" flex="5">
+					<div >
+						<i class="fa fa-check fa-3x check greenChk"></i>
+						<md-tooltip>This is the correct answer</md-tooltip>
+					</div>
 				</div>
 				<div flex="95" class="rContainer">
 					<h3 class="name slim">
@@ -36,7 +36,7 @@
 			</div>
 			<span class="fading-line"></span>
 		</div>
-		<div class="doReply md-whiteframe-z3">
+		<div ng-if="!q.current.answered" class="doReply md-whiteframe-z3">
 			<form ng-submit="q.reply(q.current, q.replyBody)">
 				<md-input-container flex="" class="md-default-theme md-input-has-value">
 	                <label for="body">Type Your Answer</label>

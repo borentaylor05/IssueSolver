@@ -40,5 +40,17 @@
 			</div>
 		</div>
 	</div>
+	<div layout="row">
+		<div flex>
+			<md-button ng-click="main.pageDown()" ng-if="main.currentPage > 1" class="md-primary md-raised">
+				<i class="fa fa-arrow-left fa-2x"></i>
+			</md-button>
+		</div>
+		<div flex class="right-flex">
+			<md-button ng-if="main.questions.length == 25" ng-click="main.pageUp()" class="md-primary md-raised">
+				<i class="fa fa-arrow-right fa-2x"></i>
+			</md-button>
+		</div>
+	</div>
 </div>
 <!-- <question-discussion show-on="main.show.question" question="main.current" user="main.currentUser"></question-discussion>	 -->

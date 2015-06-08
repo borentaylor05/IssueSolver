@@ -12,6 +12,8 @@ class UsersController < ApplicationController
 		 u = User.find_by(employee_id: params[:employee_id])
 		 if u 
 		 	respond({ status: 1, error: "User #{params[:employee_id]} already exists. " })
+		 elsif params[:l2] and params[:mentor]
+		 	respond({ status: 1, error: "User cannot be L2 and Coach Mentor." })
 		 else
 		 	if params[:password] == params[:password_confirmation]
 			 	u = User.new(
@@ -33,6 +35,12 @@ class UsersController < ApplicationController
 			 	respond({ status: 1, error: "Passwords do not match." })
 			 end
 		 end
+	end
+
+	def got_it
+		if current_user.update_attributes(how_to: true)
+			respond({ status: 0 })
+		end
 	end
 
 end

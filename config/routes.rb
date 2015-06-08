@@ -31,6 +31,7 @@ Rails.application.routes.draw do
 	match "/api/categories/create", to: "categories#create_category", via: :post
 	# User
 	match "/api/users", to: "users#create_user", via: :post
+	match "/api/users/got-it", to: "users#got_it", via: :post
 	# END API-like routes
 
 end

@@ -128,10 +128,15 @@ class QuestionsController < ApplicationController
 	end
 
 	def get_questions
+		limit = 25
+		if !params[:page]
+			params[:page] = 1
+		end
+		start = (limit * params[:page].to_i) - limit
 		if params[:category] == "my-questions"
-			respond({ status: 0, questions: apify(current_user.questions(params[:status])), current: current_user })
+			respond({ status: 0, questions: apify(current_user.questions(params[:status], params[:page].to_i)), current: current_user })
 		elsif !params[:category] and !params[:status]
-			respond({ status: 0, questions: Question.where(answered: false).limit(25), current: current_user })
+			respond({ status: 0, questions: Question.where(answered: false).offset(start).limit(25), current: current_user })
 		else
 			if params[:category]
 				params[:category] = params[:category].split("-").join(" ")
@@ -146,13 +151,13 @@ class QuestionsController < ApplicationController
 			end	
 			Rails.logger.info("CAT - #{cat} --- TYPE - #{params[:status]}")
 			if cat and both
-				respond({ status: 0, questions: apify(Question.where(category: cat).limit(25)), current: current_user })
+				respond({ status: 0, questions: apify(Question.where(category: cat).offset(start).limit(25)), current: current_user })
 			elsif cat and !both
-				respond({ status: 0, questions: apify(Question.where(category: cat, answered: answered).limit(25)), current: current_user })
+				respond({ status: 0, questions: apify(Question.where(category: cat, answered: answered).offset(start).limit(25)), current: current_user })
 			elsif !cat and both 
-				respond({ status: 0, questions: apify(Question.all.limit(25)), current: current_user })
+				respond({ status: 0, questions: apify(Question.all.offset(start).limit(25)), current: current_user })
 			elsif !cat and !both
-				respond({ status: 0, questions: apify(Question.where(answered: answered).limit(25)), current: current_user })
+				respond({ status: 0, questions: apify(Question.where(answered: answered).offset(start).limit(25)), current: current_user })
 			else
 				respond({ status: 1, error: "Check Query" })
 			end

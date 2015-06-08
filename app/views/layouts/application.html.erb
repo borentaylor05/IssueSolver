@@ -16,8 +16,12 @@
 	        <span class="visually-hidden"></span>
 	      </button>
 	      	<h1 flex="20" id="appTitle" >WW Coaches</h1>
-	      	<div flex="50"> 
+	      	<div flex="45"> 
 	      		<p ng-if="main.showHud" class="hud cap">Showing <span class="bold">{{ main.currentStatus == 'both' ? 'all' : main.currentStatus }}</span> questions in <span class="bold">{{ main.currentCategory }}</span></p>
+	      	</div>
+	      	<div flex="5" class="center">
+	      		<i ng-click="main.howTo()" class="fa fa-question-circle"></i>
+	      		<md-tooltip>How This Works</md-tooltip>
 	      	</div>
 	      	<div layout="column" layout-align="center center" flex="10">
 				<md-select placeholder="Account" ng-model='acct'>
@@ -44,17 +48,17 @@
 	          			ng-class="{'fa-minus': main.show.addCat, 'fa-plus': !main.show.addCat }">
 	          		</i>
 	          	</div>	          	
-	          	<form ng-submit="main.createCategory(main.newCat)" ng-if="main.currentUser.admin && main.show.addCat">
+	          	<form name="newCat" ng-submit="main.createCategory(main.newCat)" ng-if="main.currentUser.admin && main.show.addCat">
 	          		<md-input-container flex="" class="md-default-theme light">
 		              	<label for="name">Category Name</label>
-		              	<input ng-model="main.newCat.name" class="md-input" id="title" tabindex="0" aria-invalid="false">
+		              	<input ng-model="main.newCat.name" class="md-input" id="title" tabindex="0" aria-invalid="false" required>
 		            </md-input-container>
 		            <md-input-container flex="" class="md-default-theme light">
 		              	<label for="icon">Icon Name</label>
 		              	<input ng-model="main.newCat.icon" class="md-input" id="title" tabindex="0" aria-invalid="false">
 		            </md-input-container>
 		            <div layout='row'>
-		            	<md-button class="md-raised md-primary right-flex" style="margin-left: auto;">
+		            	<md-button ng-disabled="newCat.$invalid" class="md-raised md-primary right-flex" style="margin-left: auto;">
 							Create
 						</md-button>
 		            </div>

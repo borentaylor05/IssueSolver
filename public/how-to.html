@@ -1,0 +1,32 @@
+<md-dialog class="wide" aria-label="New Question">
+    <md-dialog-content class="sticky-container">
+        <md-subheader class="md-sticky-no-effect">How This Works...</md-subheader>
+        <div class="listContainer">
+        	<h4>Below is a summary of how to use this tool. Please read everything before closing the dialog.</h4>
+        	<ul>
+        		<li>You have a member with a problem you don't know how to answer.</li>
+        		<li>You post an instant question here where all Coaches, Coach Mentors and Level 2 (L2) Agents can view and post replies.</li>
+        		<li>Only Coach Mentors, L2s and Admins have the ability to mark a reply as the correct answer to the question.</li>
+        		<li>All questions have a category that you will see on the side menu.  You can filter for open questions and resolutions based on that category.</li>
+        		<li>All questions are either grouped as Answered or Unanswered.  You can switch between these 2 groups from the tab on your home page.  You can also display all Answered and Unanswered questions by selecting Both.</li>
+        		<li>All questions you are following show up in the 'My Questions' category.</li>
+        		<li>You automatically follow questions you ask and questions you reply to.</li>
+        		<li>You can also manually follow questions by clicking '+ Follow'.</li>
+        		<li>Once a question has been answered, the question is closed and moved to the 'Answered' section.</li>
+        		<li>
+        			There are 2 places you can see the number of unread replies for questions you are following:
+					<ul>
+						<li>The first is the red circle beside My Questions.  This is the combined number of unread messages you have from all questions you are following.</li>
+						<li>The second is the circle attached to each question you are following.  This is the number of unread replies for that specific question.</li>
+					</ul>
+        		</li>
+        		<li class="bold" style="letter-spacing: .5px;">Click 'Got It!' when you have read and understand this. You can always refer to this by clicking the '?' on the top navbar.</li>
+        	</ul>
+        </div>
+    </md-dialog-content>
+	<div class="md-actions" layout="row">
+		<md-button ng-click="answer()" class="md-primary">
+			Got It!
+		</md-button>
+	</div>
+</md-dialog>

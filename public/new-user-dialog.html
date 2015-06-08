@@ -2,36 +2,34 @@
     <form name="newUser" novalidate>
     <md-dialog-content class="sticky-container">
         <md-subheader class="md-sticky-no-effect">New User</md-subheader>
-        <div>
+        <div>          
             <md-input-container flex="40" class="md-default-theme">
               <label for="title">Jive Username / Employee ID</label>
-              <input name="eid" ng-model="nu.user.employee_id" class="md-input" id="eid" tabindex="0" aria-invalid="false" required>
-              <div ng-messages="newUser.eid.$error && !newUser.eid.$pristine">
-                <div ng-message="required">This is required.</div>
-              </div>
+              <input name="eid" ng-model="nu.user.employee_id" class="md-input" id="eid" tabindex="0" aria-invalid="false" required>              
             </md-input-container>
             <div layout="row">
               <md-input-container flex="40" class="md-default-theme">
                 <label for="fname">First Name</label>
-                <input ng-model="nu.user.first_name" class="md-input" id="fname" tabindex="0" aria-invalid="false">
+                <input ng-model="nu.user.first_name" class="md-input" id="fname" tabindex="0" aria-invalid="false" required>
               </md-input-container>
               <md-input-container flex="40" class="md-default-theme">
                 <label for="lname">Last Name</label>
-                <input ng-model="nu.user.last_name" class="md-input" id="lname" tabindex="0" aria-invalid="false">
+                <input ng-model="nu.user.last_name" class="md-input" id="lname" tabindex="0" aria-invalid="false" required>
               </md-input-container>
             </div>
             <md-input-container flex="40" class="md-default-theme">
               <label for="email">Email Address</label>
-              <input ng-model="nu.user.email" class="md-input" id="email" tabindex="0" aria-invalid="false">
+              <input ng-model="nu.user.email" class="md-input" id="email" tabindex="0" aria-invalid="false" required>
             </md-input-container>
             <md-input-container flex="40" class="md-default-theme">
               <label for="password">Password</label>
-              <input type="password" ng-model="nu.user.password" class="md-input" id="password" tabindex="0" aria-invalid="false">
+              <input name="password" type="password" ng-model="nu.user.password" class="md-input" id="password" tabindex="0" aria-invalid="false" required>
             </md-input-container>
             <md-input-container flex="40" class="md-default-theme">
-              <label for="password_confirmation">Password Confrimation</label>
-              <input type="password" ng-model="nu.user.password_confirmation" class="md-input" id="password_confirmation" tabindex="0" aria-invalid="false">
+              <label for="password_confirmation">Password</label>
+              <input name="password_confirmation" type="password" ng-model="nu.user.password_confirmation" class="md-input" id="password_confirmation" tabindex="0" aria-invalid="false" required>
             </md-input-container>
+            <br/>
             <md-checkbox class="md-primary" ng-model="nu.user.l2" aria-label="l2">
               Is this an L2 Agent? <span class="bold">{{ nu.user.l2 ? "Yes" : "No" }} </span>
             </md-checkbox>
@@ -41,11 +39,12 @@
         </div>
     </md-dialog-content>
   <div class="md-actions" layout="row">
-    <span flex></span>
+    <div ng-if="nu.error" class="alert red md-whiteframe-z1"> {{ nu.error }} </div>
+    <div ng-if="nu.success" class="alert green md-whiteframe-z1"> {{ nu.success }} </div>
     <md-button ng-click="cancel()" class="md-primary">
      Cancel
     </md-button>
-    <md-button ng-click="nu.createUser(nu.user)" class="md-raised md-primary">
+    <md-button ng-disabled="newUser.$invalid" ng-click="nu.createUser(nu.user)" class="md-raised md-primary">
       Create User
     </md-button>
   </div>

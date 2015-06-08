@@ -23,17 +23,6 @@ app.directive("questionDiscussion", function(){
 	}
 });
 
-app.directive("onHover", function(){
-	return function(scope, el, attr){
-		el.on("mouseenter", function(){
-			el.removeClass("hide");
-		});
-		el.on("mouseleave", function(){
-			el.addClass("hide");
-		});
-	}
-});
-
 app.factory("category", function($http){
 	var cat = {};
 
@@ -64,7 +53,6 @@ app.factory("questions", function($http){
 		return $http.post("/api/questions", question);
 	}
 	q.reply = function(question){
-		console.log(question);
 		return $http.post("/api/questions/"+question.id+"/reply", { reply: question.reply })
 	}
 	q.getReplies = function(question_id){
@@ -75,6 +63,10 @@ app.factory("questions", function($http){
 	}
 	q.follow = function(question_id){
 		return $http.post("/api/questions/"+question_id+"/follow");
+	}
+	q.paginate = function(category, status, page){
+		category = category.toLowerCase().split(" ").join("-");
+		return $http.get("/api/questions/"+category+"/"+status+"?page="+page);
 	}
 
 	return q;
@@ -88,6 +80,9 @@ app.factory("users", function($http){
 	}
 	u.create = function(user){
 		return $http.post("/api/users", user);
+	}
+	u.gotIt = function(){
+		return $http.post("/api/users/got-it");
 	}
 
 	return u;
@@ -116,6 +111,7 @@ app.controller('Main', ['$scope', '$timeout', '$interval', '$mdSidenav', '$mdDia
 	main.getQuestions = function(){
 		if(!main.currentCategory || !main.currentStatus){
 			var parts = window.location.hash.split(":");
+			parts[0] = parts[0].replace("#", '');
 			main.currentCategory = parts[0];
 			main.currentStatus = parts[1];
 		}
@@ -124,8 +120,6 @@ app.controller('Main', ['$scope', '$timeout', '$interval', '$mdSidenav', '$mdDia
 		questions.get(main.currentCategory, main.currentStatus).success(function(resp){
 			console.log(resp);
 			if(resp.status == 0){
-				main.show.list = true;
-				main.show.question = false;
 				main.questions = resp.questions;
 				main.currentUser = resp.current;
 			}				
@@ -166,7 +160,20 @@ app.controller('Main', ['$scope', '$timeout', '$interval', '$mdSidenav', '$mdDia
 			$scope.alert = 'You cancelled the dialog.';
 		});
 	}
+	main.howTo = function(ev){
+		$mdDialog.show({
+			controller: "HowToCtrl as ht",
+			templateUrl: '/how-to.html',
+			targetEvent: ev
+		})
+		.then(function(answer) {
+			main.getQuestions();
+		}, function() {
+			$scope.alert = 'You cancelled the dialog.';
+		});
+	}
 	main.setStatus = function(status){
+		main.currentPage = 1;
 		if(!main.preventStupid){
 			main.currentStatus = status;
 			if(!main.currentCategory)
@@ -181,6 +188,7 @@ app.controller('Main', ['$scope', '$timeout', '$interval', '$mdSidenav', '$mdDia
 		}
 	}
 	main.setCategory = function(category){
+		main.currentPage = 1;
 		main.currentCategory = category;
 		if(!main.currentStatus)
 			main.currentStatus = 'unanswered';
@@ -239,15 +247,38 @@ app.controller('Main', ['$scope', '$timeout', '$interval', '$mdSidenav', '$mdDia
 			main.go(main.current);
 		}
 	}
+	main.pageUp = function(){
+		main.currentPage++;
+		questions.paginate(main.currentCategory, main.currentStatus, main.currentPage).success(function(resp){
+			if(resp.status == 0)
+				main.questions = resp.questions;
+		});
+	}
+	main.pageDown = function(){
+		main.currentPage--;
+		questions.paginate(main.currentCategory, main.currentStatus, main.currentPage).success(function(resp){
+			if(resp.status == 0)
+				main.questions = resp.questions;
+		});
+	}
 	if(window.location.pathname == "/"){
-		main.currentStatus = 'unanswered';
-		main.currentCategory = 'my questions';
-		main.placeCategories();
+		if(!main.currentCategory || !main.currentStatus){
+			var parts = window.location.hash.split(":");
+			parts[0] = parts[0].replace("#", '');
+			main.currentCategory = parts[0];
+			main.currentStatus = parts[1];
+		}
+		main.currentPage = 1;
 		main.getQuestions();
+		main.placeCategories();
 		main.showHud = true;
 	}
 	main.placeCategories();
 	main.getCurrentUser();
+	$timeout(function(){
+		if(main.currentUser && !main.currentUser.how_to)
+			main.howTo();
+	}, 1000);
 	// $interval(function(){
 	// 	main.refresh();
 	// }, 30000);
@@ -351,7 +382,29 @@ app.controller("NewUserCtrl", function($scope, $mdDialog, users){
 	};
 	nu.createUser = function(user){
 		users.create(user).success(function(resp){
-			console.log(resp);
+			if(resp.status == 0){
+				nu.error = null;
+				nu.success = user.first_name+" "+user.last_name+" created successfully!";
+			}
+			else{
+				nu.success = null;
+				nu.error = resp.error;
+			}
 		});
 	}
+});
+
+app.controller("HowToCtrl", function($scope, $mdDialog, users){
+	$scope.hide = function() {
+		$mdDialog.hide();
+	};
+	$scope.cancel = function() {
+		$mdDialog.cancel();
+	};
+	$scope.answer = function() {
+		$mdDialog.cancel();
+		users.gotIt().success(function(resp){
+		//	console.log(resp);
+		});
+	};
 });
