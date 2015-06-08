@@ -31,6 +31,7 @@ class ApplicationController < ActionController::Base
                   ur = a.get_user_unread(current_user)
                   na[:unread] = ur[:unread]
                   na[:unread_status] = ur[:status]
+                  na[:total_replies] = a.replies.count
                 end
                 newArr.push(na)
             end
@@ -38,6 +39,7 @@ class ApplicationController < ActionController::Base
         elsif array.class.name == "Question"
             a = array.attributes
             a[:user] = array.user
+            a[:total_replies] = array.replies.count
             a[:replies] = apify(array.replies)
             a[:created_at] = "#{time_ago_in_words(array.created_at)} ago"
             return a

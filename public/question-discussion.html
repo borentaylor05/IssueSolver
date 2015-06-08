@@ -8,7 +8,7 @@
 		<p class="tiny block slim qFooter"> asked by {{ q.current.user.name }} {{ q.current.created_at }} </p>
 	</div>
 	<div class="replyContainer" flex>
-		<h2 class="slim">Replies</h2>
+		<h2 class="slim">Replies ({{ q.current.total_replies }}) </h2>
 		<span class="fading-line"></span>
 		<div class="reply" ng-repeat="r in q.replies">
 			<div layout="row" ng-class="r.is_answer ? 'correct' : ''" ng-attr-id="{{ r.is_answer ? 'correct' : '' }}">

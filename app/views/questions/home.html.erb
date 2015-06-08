@@ -24,8 +24,13 @@
 			<div flex="65" class="questionText">
 				<span>{{ q.body }}</span>
 				<div style="margin-top:20px;">
-					<div class="qFooter">
-						Asked by {{ q.user.name }} {{ q.created_at }}.
+					<div class="footer" layout="row">
+						<div class="lFooter" flex="20">
+							# Replies: {{ q.total_replies }}
+						</div>
+						<div flex="80" class="rFooter right-flex">
+							Asked by {{ q.user.name }} {{ q.created_at }}.
+						</div>						
 					</div>
 				</div>
 			</div>
