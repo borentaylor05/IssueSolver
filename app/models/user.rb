@@ -15,19 +15,17 @@ class User < ActiveRecord::Base
     has_many :questions, through: :reply_trackers
 
     def questions(answered, page = 1)
-      questions = []
       start = 0
       limit = 25
       start = (limit * page) - limit
       case answered
       when 'answered'
-        self.reply_trackers.offset(start).limit(25).each { |rt| questions.push(rt.question) if rt.question.answered }
+        return Question.joins(:reply_trackers).where(reply_trackers: { user_id: self.id }, questions: { answered: true }).offset(start).limit(limit)
       when 'unanswered'
-        self.reply_trackers.offset(start).limit(25).each { |rt| questions.push(rt.question) if !rt.question.answered }
+        return Question.joins(:reply_trackers).where(reply_trackers: { user_id: self.id }, questions: { answered: false }).offset(start).limit(limit)
       when 'both'
-        self.reply_trackers.offset(start).limit(25).each { |rt| questions.push(rt.question) }
+        return Question.joins(:reply_trackers).where(reply_trackers: { user_id: self.id }).offset(start).limit(limit)
       end
-      return questions
     end
 
 

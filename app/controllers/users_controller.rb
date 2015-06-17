@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
 
+	before_action :verify, only: [:create_user, :got_it]
+
 	def get_current_user
 		if user_signed_in?
 			respond({ status: 0, user: current_user })

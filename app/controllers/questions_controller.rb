@@ -2,7 +2,7 @@ class QuestionsController < ApplicationController
   	
   	before_action :authenticate_user!
   	after_filter :set_csrf_cookie_for_ng
-  	before_action :verify, only: [:create_question]
+  	before_action :verify, only: [:create_question, :answer, :follow, :create_question_reply]
 
   	def show
   	end

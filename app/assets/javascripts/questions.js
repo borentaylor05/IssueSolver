@@ -225,7 +225,7 @@ app.controller('Main', ['$scope', '$timeout', '$interval', '$mdSidenav', '$mdDia
 	}
 	main.follow = function(question){
 		if(question.unread_status){
-			if(confirm("Are you sure you want to unfollow?  This will reset your unread reply count for this question.")){
+			if(confirm("Are you sure you want to unfollow?  This will reset your unread reply count for this question and the question will no longer show up in 'My Questions'.")){
 				questions.follow(question.id).success(function(resp){
 					if(resp.status == 0)
 						question.unread_status = !question.unread_status;

@@ -1,5 +1,7 @@
 class CategoriesController < ApplicationController
 
+	before_action :verify, only: [:create_category]
+
 	def get_categories
 		if params[:dbonly]
 			cats = []
@@ -13,11 +15,12 @@ class CategoriesController < ApplicationController
 	def create_category
 		params[:name] = params[:name].split("-").join(" ")
 		c = Category.find_by(name: params[:name])
+		params[:icon] ||= "question-circle"
 		if c 
 			respond({ status: 1, error: "Name - #{params[:name]} - is already taken." })
 		else
 			c = Category.new(
-				name: params[:name],
+				name: params[:name].gsub!("/", "-"),
 				icon: "fa-#{params[:icon]}"
 			)
 			if c.valid? 
