@@ -5,15 +5,47 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   $valid_classes = [ "Array", "ActiveRecord::Relation", "ActiveRecord::Associations::CollectionProxy" ]
-
+  $allowed_domains = [ 'localhost', 'weightwatchers.jiveon.com', 'social.teletech.com' ]
   def after_sign_in_path_for(resource)
     "/"
+  end
+
+  def cors_set_access_control_headers
+    Rails.logger.info verify_domain
+    headers['Access-Control-Allow-Origin'] = verify_domain
+    headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
+    headers['Access-Control-Request-Method'] = '*'
+    headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  end
+
+  def maybe_login_from_token
+    Rails.logger.info "maybe_login_from_token: '#{ params[:token] }'"
+    return if (token = params[:token]).blank?
+
+    if (user = User.find_by_token(token))
+      Rails.logger.info "One time login token used for user #{ user.id }"
+      sign_in(user)
+    else
+      Rails.logger.info "No user found from token: '#{ token }'"
+    end
+
+    # strip token regardless of success
+  #  redirect_to request.path, params.except(:token, :action, :controller)
   end
 
   def respond(response)
   	respond_to do |format|
   		format.any(:json, :html) { render json: response }
   	end
+  end
+
+  def verify_domain
+    if $allowed_domains.include? request.host
+      Rails.logger.info(request.host)
+      return request.headers['origin']
+    else
+      raise "Unauthorized - Invalid Origin - IP: #{request.remote_ip} - Domain - #{request.headers['origin']} - Referrer - #{request.referrer}"
+    end
   end
 
   # array = array of objects

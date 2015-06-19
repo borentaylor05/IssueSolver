@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
 	#  disable registration, but allow for password change 
 	#  https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-edit-their-password
-	devise_for :users, :skip => [:registrations] 
+	devise_for :users, controllers: { sessions: "users/sessions" }, :skip => [:registrations] 
 		as :user do
 			get 'users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'    
 			put 'users/:id' => 'devise/registrations#update', :as => 'user_registration'  
@@ -32,6 +32,8 @@ Rails.application.routes.draw do
 	# User
 	match "/api/users", to: "users#create_user", via: :post
 	match "/api/users/got-it", to: "users#got_it", via: :post
+	match "/api/users/token", to: "users#get_token", via: [:post, :options]
+	match "/api/users/token-login", to: "users#token_login", via: [:get]
 	# END API-like routes
 
 end

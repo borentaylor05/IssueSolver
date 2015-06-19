@@ -22,4 +22,10 @@ class Question < ActiveRecord::Base
 		end		
 	end
 
+	def answer
+		self.replies.each do |r|
+			return r if r.is_answer
+		end
+	end
+
 end

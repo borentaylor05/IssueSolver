@@ -28,5 +28,11 @@ class User < ActiveRecord::Base
       end
     end
 
+    def gen_token
+      SecureRandom.hex(16).tap do |random_token|
+        update_attributes token: random_token
+      end
+    end
+
 
 end

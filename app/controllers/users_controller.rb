@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
 
+	skip_before_action :verify_authenticity_token, only: [:get_token]
+	before_filter :cors_set_access_control_headers, only: [:get_token]
+	before_filter :maybe_login_from_token, only: :token_login	
 	before_action :verify, only: [:create_user, :got_it]
 
 	def get_current_user
@@ -8,6 +11,23 @@ class UsersController < ApplicationController
 		else
 			respond({ status: 1, error: "User not signed in" })
 		end
+	end
+
+	def get_token
+		if request.method == "OPTIONS"
+			respond({ status: 0 })
+		elsif request.method == "POST"
+			u = User.find_by(jive_id: params[:id])
+			if u 
+				respond({ status: 0, token: u.token })
+			else
+				respond({ status: 1, error: "User #{params[:id]} not found. " })
+			end
+		end			
+	end
+
+	def token_login
+		redirect_to "/"
 	end
 
 	def create_user
