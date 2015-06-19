@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   $valid_classes = [ "Array", "ActiveRecord::Relation", "ActiveRecord::Associations::CollectionProxy" ]
-  $allowed_domains = [ 'localhost', 'weightwatchers.jiveon.com', 'social.teletech.com' ]
+  $allowed_domains = [ 'http://localhost', 'https://weightwatchers.jiveon.com', 'https://social.teletech.com', 'https://thawing-headland-3609.herokuapp.com', 'http://thawing-headland-3609.herokuapp.com' ]
   def after_sign_in_path_for(resource)
     "/"
   end
@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   end
 
   def verify_domain
-    if $allowed_domains.include? request.host
+    if $allowed_domains.include? request.headers['origin']
       Rails.logger.info(request.host)
       return request.headers['origin']
     else
