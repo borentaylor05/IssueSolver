@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
       Rails.logger.info(request.host)
       return request.headers['origin']
     else
-      raise "Unauthorized - Invalid Origin - IP: #{request.remote_ip} - Domain - #{request.headers['origin']} - Referrer - #{request.referrer}"
+      raise "Unauthorized - Invalid Origin - HOST: #{request.host} IP: #{request.remote_ip} - Domain - #{request.headers['origin']} - Referrer - #{request.referrer}"
     end
   end
 
