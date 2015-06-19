@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   $valid_classes = [ "Array", "ActiveRecord::Relation", "ActiveRecord::Associations::CollectionProxy" ]
-  $allowed_domains = [ 'http://localhost:8080', 'https://weighatchers.jiveon.com', 'https://social.teletech.com', 'https://thawing-headland-3609.herokuapp.com', 'http://thawing-headland-3609.herokuapp.com' ]
+  $allowed_domains = [ 'http://localhost:8080', 'https://weightwatchers.jiveon.com', 'https://social.teletech.com', 'https://thawing-headland-3609.herokuapp.com', 'http://thawing-headland-3609.herokuapp.com' ]
   def after_sign_in_path_for(resource)
     "/"
   end
